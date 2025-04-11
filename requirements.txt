@@ -1,0 +1,9 @@
+lightning==2.4.0
+lightning-utilities==0.14.3
+transformers==4.43.4
+peft
+datasets
+numpy==1.26.0
+rdkit-pypi
+easydict
+deepspeed

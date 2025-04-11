@@ -1,0 +1,9 @@
+num_workers: 8
+batch_size: 4
+root: data/Mol-LLaMA-Instruct/
+data_types: 
+  - detailed_structural_descriptions
+  - structure2chemical_features_relationships
+  - structure2biological_features_relationships
+  - comprehensive_conversations
+

@@ -1,0 +1,17 @@
+[
+    {
+        "smiles": ["C1C(=O)NC2=C(C=C(C=C2)Br)C(=N1)C3=CC=CC=N3"],
+        "system": "You are a helpful assistant specializing in chemistry and biology. The instruction that describes a task is given, paired with molecules. Provide a response that appropriately completes the request.",
+        "user": "Explain the features of the given molecule that are most distinct from those of other molecules.\nMolecule <mol>."
+    },
+    {
+        "smiles": ["C1=NC(=C2C(=N1)N(C=N2)[C@H]3[C@@H]([C@@H]([C@H](O3)CO)O)O)N"],
+        "system": "You are a helpful assistant specializing in chemistry and biology. The instruction that describes a task is given, paired with molecules. Provide a response that appropriately completes the request.",
+        "user": "What are the biological functionalities of this molecule?\nMolecule <mol>."
+    },
+    {
+        "smiles": ["C[C@H]1/C=C/C=C/CC/C=C/C=C/C=C/C=C/C(CC2C(C(C[C@](O2)(CC(C(CCC(CC(CC(CC(=O)O[C@H]([C@@H]([C@@H]1O)C)C)O)O)O)O)O)O)O)C(=O)O)O[C@@H]3[C@H]([C@H]([C@@H]([C@H](O3)C)O)N)O"],
+        "system": "You are a helpful assistant specializing in chemistry and biology. The instruction that describes a task is given, paired with molecules. Provide a response that appropriately completes the request.",
+        "user": "Could you explain the biological implication of this molecule?\nMolecule <mol>."
+    }
+]

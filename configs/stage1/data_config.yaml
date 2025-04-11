@@ -1,0 +1,5 @@
+num_workers: 8
+batch_size: 16
+text_max_len: 512
+root: data/Mol-LLaMA-Instruct/
+
