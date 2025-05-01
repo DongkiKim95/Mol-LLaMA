@@ -118,7 +118,7 @@ def main(model_config, train_config, data_config):
 
     trainer.fit(model, datamodule=dm)
 
-def get_args():
+if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Stage 2 training')
     parser.add_argument('--train_config_path', type=str, default='configs/stage2/train_config.yaml')
     parser.add_argument('--data_config_path', type=str, default='configs/stage2/data_config.yaml')
@@ -139,8 +139,4 @@ def get_args():
     print('-'*60)
 
     main(model_config, train_config, data_config)
-
-
-if __name__ == '__main__':
-    main(get_args())
 
