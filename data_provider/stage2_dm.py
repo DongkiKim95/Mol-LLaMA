@@ -17,7 +17,7 @@ from data_provider.tokenization_utils import batch_tokenize_messages_list
 
 
 
-class Stage2eCollater:
+class Stage2Collater:
     def __init__(self, tokenizer, llama_version, pad_idx, encoder_types):
         self.tokenizer = tokenizer
         self.llama_version = llama_version
@@ -90,7 +90,7 @@ class Stage2DM(LightningDataModule):
                             pin_memory=False,
                             drop_last=True,
                             persistent_workers=True,
-                            collate_fn=Stage2eCollater(self.tokenizer,
+                            collate_fn=Stage2Collater(self.tokenizer,
                                                     self.llama_version,
                                                     self.unimol_dictionary.pad(),
                                                     self.encoder_types)
