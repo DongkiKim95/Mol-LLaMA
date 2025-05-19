@@ -64,7 +64,7 @@ python -m pampa.inference
 
 ## Citation
 
-If you find our workd useful, please consider citing our work.
+If you find our work useful, please consider citing our work.
 ```
 @misc{kim2025molllama,
     title={Mol-LLaMA: Towards General Understanding of Molecules in Large Molecular Language Model},
