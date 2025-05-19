@@ -1,6 +1,6 @@
 # Mol-LLaMA: Towards General Understanding of Molecules in Large Molecular Language Model
 
-[[Project Page](https://mol-llama.github.io/)] [[Papaer](https://arxiv.org/abs/2502.13449)] [[Data](https://huggingface.co/datasets/DongkiKim/Mol-LLaMA-Instruct)] [[Mol-Llama-2-7b-chat Weights](https://huggingface.co/DongkiKim/Mol-Llama-2-7b-chat)] [[Mol-Llama-3.1-8B-Instruct Weights](https://huggingface.co/DongkiKim/Mol-Llama-3.1-8B-Instruct)]
+[[Project Page](https://mol-llama.github.io/)] [[Paper](https://arxiv.org/abs/2502.13449)] [[Data](https://huggingface.co/datasets/DongkiKim/Mol-LLaMA-Instruct)] [[Mol-Llama-2-7b-chat Weights](https://huggingface.co/DongkiKim/Mol-Llama-2-7b-chat)] [[Mol-Llama-3.1-8B-Instruct Weights](https://huggingface.co/DongkiKim/Mol-Llama-3.1-8B-Instruct)]
 
 ## Why Mol-LLaMA?
 
