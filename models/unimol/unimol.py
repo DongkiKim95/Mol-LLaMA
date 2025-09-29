@@ -9,12 +9,66 @@ https://github.com/deepmodeling/Uni-Mol/blob/main/unimol/unimol/models/unimol.py
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from unicore import utils
-from unicore.models import BaseUnicoreModel
-from unicore.modules import init_bert_params
+from utils.model_utils import get_activation_fn
 from models.unimol.transformer_encoder_with_pair import TransformerEncoderWithPair
 
+def init_bert_params(module):
+    if not getattr(module, 'can_global_init', True):
+        return
+    def normal_(data):
+        data.copy_(
+            data.cpu().normal_(mean=0.0, std=0.02).to(data.device)
+        )
+    if isinstance(module, nn.Linear):
+        normal_(module.weight.data)
+        if module.bias is not None:
+            module.bias.data.zero_()
+    if isinstance(module, nn.Embedding):
+        normal_(module.weight.data)
+        if module.padding_idx is not None:
+            module.weight.data[module.padding_idx].zero_()
 
+class BaseUnicoreModel(nn.Module):
+    """Base class for unicore models."""
+
+    def __init__(self):
+        super().__init__()
+
+    @classmethod
+    def add_args(cls, parser):
+        """Add model-specific arguments to the parser."""
+        pass
+
+    @classmethod
+    def build_model(cls, args, task):
+        """Build a new model instance."""
+        raise NotImplementedError("Model must implement the build_model method")
+
+    def extract_features(self, *args, **kwargs):
+        """Similar to *forward* but only return features."""
+        return self(*args, **kwargs)
+
+    def load_state_dict(
+        self,
+        state_dict,
+        strict=True,
+        model_args = None,
+    ):
+        """Copies parameters and buffers from *state_dict* into this module and
+        its descendants.
+
+        Overrides the method in :class:`nn.Module`. 
+        """
+        return super().load_state_dict(state_dict, strict)
+
+    def set_num_updates(self, num_updates):
+        """State from trainer to pass along to model at every update."""
+
+        def _apply(m):
+            if hasattr(m, "set_num_updates") and m != self:
+                m.set_num_updates(num_updates)
+
+        self.apply(_apply)
 
 class SimpleUniMolModel(BaseUnicoreModel):
     def __init__(
@@ -53,7 +107,7 @@ class SimpleUniMolModel(BaseUnicoreModel):
         )
 
         K = 128
-        n_edge_type = len(dictionary) * len(dictionary)
+        n_edge_type = 31 * 31
         self.gbf_proj = NonLinearHead(
             K, unimol_encoder_attention_heads, unimol_activation_fn
         )
@@ -106,7 +160,7 @@ class NonLinearHead(nn.Module):
         hidden = input_dim if not hidden else hidden
         self.linear1 = nn.Linear(input_dim, hidden)
         self.linear2 = nn.Linear(hidden, out_dim)
-        self.activation_fn = utils.get_activation_fn(activation_fn)
+        self.activation_fn = get_activation_fn(activation_fn)
 
     def forward(self, x):
         x = self.linear1(x)

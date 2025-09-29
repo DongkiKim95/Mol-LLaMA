@@ -11,8 +11,7 @@ from peft import get_peft_model, LoraConfig, TaskType
 
 from utils.configuration_mol_llama import MolLLaMAConfig
 from models.mol_llama_encoder import MolLLaMAEncoder
-from transformers import AutoTokenizer, LlamaForCausalLM, PreTrainedModel, GenerationMixin
-from unicore.data import Dictionary
+from transformers import LlamaForCausalLM, PreTrainedModel
 
 from collections import defaultdict
 from tqdm import tqdm
@@ -204,7 +203,7 @@ class MolLLaMA(MolLLaMAPreTrainedModel):
     def load_from_ckpt(self, ckpt_path):
         print(f"Loading from checkpoint: {ckpt_path}")
 
-        ckpt = torch.load(ckpt_path, map_location='cpu', weights_only=True)
+        ckpt = torch.load(ckpt_path, map_location='cpu', weights_only=False)
         state_dict = {k[10:]:v for k,v in ckpt['state_dict'].items() if k.startswith("mol_llama.")}
         missing_keys, unexpected_keys = self.load_state_dict(state_dict, strict=False)
         assert len(unexpected_keys) == 0, f"unexpected keys: {unexpected_keys}"
@@ -217,7 +216,7 @@ class MolLLaMA(MolLLaMAPreTrainedModel):
     def load_from_stage1_ckpt(self, ckpt_path):
         print(f"Loading from stage1 checkpoint: {ckpt_path}")
 
-        ckpt = torch.load(ckpt_path, map_location='cpu', weights_only=True)
+        ckpt = torch.load(ckpt_path, map_location='cpu', weights_only=False)
         state_dict = {k[8:]:v for k,v in ckpt['state_dict'].items() if k.startswith("encoder.")}
         missing_keys, unexpected_keys = self.encoder.load_state_dict(state_dict, strict=False)
         
@@ -252,7 +251,7 @@ def gen_3d_conformation_from_rdkit(smiles):
 
 def gen_3d_conformation_from_openbabel(smiles):
     mol = pybel.readstring('smi', smiles)
-    mol.make3D(forcefield='mmff94', steps=10000)
+    mol.make3D(forcefield='mmff94', steps=300)
     mol.OBMol.DeleteHydrogens()
 
     atomic_nums = [atom.atomicnum for atom in mol.atoms]

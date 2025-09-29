@@ -12,7 +12,8 @@ import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from unicore.modules import TransformerEncoderLayer, LayerNorm
+from .transformer_encoder_layer import TransformerEncoderLayer
+from .layer_norm import LayerNorm
 
 
 class TransformerEncoderWithPair(nn.Module):

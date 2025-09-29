@@ -21,17 +21,3 @@ class Stage1Dataset(Dataset):
         data_graph, data_others = self.mol_dataset[cid]
 
         return data_graph, data_others['iupac_name']
-
-if __name__ == '__main__':
-    from unicore.data import Dictionary
-    from torch.utils.data import DataLoader
-    import torch
-    from tqdm import tqdm
-
-    dictionary = Dictionary.load('./data_provider/unimol_dict.txt')
-    dictionary.add_symbol("[MASK]", is_special=True)
-    
-    split = 'pretrain'
-
-    dataset = Stage1Dataset('./data/ComMolIT/pubchem/'+split+'/', 
-                            dictionary, 'unimol+moleculestm', 512)

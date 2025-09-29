@@ -24,10 +24,6 @@ pip install flash-attn --no-build-isolation
 conda install pyg -c pyg -y
 conda install pytorch-scatter -c pyg -y
 conda install openbabel -c conda-forge -y
-
-git clone https://github.com/dptech-corp/Uni-Core
-cd Uni-Core
-python setup.py install
 ```
 
 ## Dataset Preparation
