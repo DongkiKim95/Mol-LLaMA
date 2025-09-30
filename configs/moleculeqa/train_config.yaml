@@ -1,0 +1,24 @@
+filename: moleculeqa_train
+ckpt_path: DongkiKim/Mol-Llama-3.1-8B-Instruct
+
+strategy_name: deepspeed
+accelerator: gpu
+devices:
+  - 0
+precision: bf16-mixed
+max_epochs: 20
+check_val_every_n_epoch: 1
+save_every_n_epochs: 1
+accumulate_grad_batches: 32 # 2 * 128
+
+weight_decay: 0.05
+init_lr: 1.0e-4
+min_lr: 5.0e-6
+warmup_lr: 1.0e-6
+warmup_steps: 1000
+scheduler: None
+
+tune_gnn: False
+temperature: 0.1
+enable_flash: True
+
