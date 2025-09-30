@@ -43,7 +43,7 @@ class MolLLaMA(MolLLaMAPreTrainedModel):
         self,
         config: MolLLaMAConfig,
         vocab_size=None,
-        torch_dtype="float16",
+        torch_dtype="bfloat16",
         enable_flash=True,
     ):
         super().__init__(config)
@@ -199,7 +199,7 @@ class MolLLaMA(MolLLaMAPreTrainedModel):
             eos_token_id=eos_token_id
         )
         return outputs
-
+    
     def load_from_ckpt(self, ckpt_path):
         print(f"Loading from checkpoint: {ckpt_path}")
 
@@ -282,6 +282,31 @@ def get_mol_graphs(smiles_list, dictionary, device):
             get_unimol_data(atoms, coordinates, dictionary, remove_Hs=True))
 
         graph = smiles2graph(smiles)
+        data_graphs['moleculestm'].append(Data(x=graph['node_feat'], 
+                                        edge_index=graph['edge_index'], 
+                                        edge_attr=graph['edge_feat']))
+
+    d3_collater = Mol3DCollater(dictionary.pad())
+    graph_batch = {}
+    graph_batch['unimol'] = d3_collater(data_graphs['unimol'])
+    graph_batch['moleculestm'] = Batch.from_data_list(data_graphs['moleculestm'])
+
+    for key in graph_batch.keys():
+        if key == 'unimol':
+            for key_ in graph_batch[key].keys():
+                graph_batch[key][key_] = graph_batch[key][key_].to(device)
+        elif key == 'moleculestm':
+            graph_batch[key] = graph_batch[key].to(device)
+        
+    return graph_batch
+
+def get_mol_graphs_from_data(mol_data_list, dictionary, device):
+    data_graphs = defaultdict(list)
+    for idx, mol_data in enumerate(tqdm(mol_data_list, desc='Processing Molecules...')):
+        data_graphs['unimol'].append(
+            get_unimol_data(mol_data['atoms'], np.array(mol_data['coordinates']), dictionary, remove_Hs=True))
+
+        graph = smiles2graph(mol_data['smiles'])
         data_graphs['moleculestm'].append(Data(x=graph['node_feat'], 
                                         edge_index=graph['edge_index'], 
                                         edge_attr=graph['edge_feat']))
