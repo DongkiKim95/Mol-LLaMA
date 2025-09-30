@@ -9,9 +9,7 @@ from data_provider.collaters import Mol3DCollater
 from data_provider.instruction_dataset import InstructionDataset
 from data_provider.mol_dataset import MolDataset_cid
 
-import torch
 from torch_geometric.data import Batch
-from transformers import BatchEncoding
 
 from data_provider.tokenization_utils import batch_tokenize_messages_list
 

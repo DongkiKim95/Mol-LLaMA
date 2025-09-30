@@ -3,9 +3,6 @@ import contextlib
 import pytorch_lightning as pl
 from torch import optim
 from trainer.optims import LinearWarmupCosineLRScheduler
-from tqdm import tqdm
-from typing import Any, Dict
-import os
 
 from models.mol_llama_encoder import MolLLaMAEncoder
 

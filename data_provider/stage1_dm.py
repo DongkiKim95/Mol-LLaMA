@@ -4,7 +4,6 @@ from pytorch_lightning import LightningDataModule
 from data_provider.stage1_dataset import Stage1Dataset
 from torch.utils.data import DataLoader
 from data_provider.collaters import Mol3DCollater
-from utils.data_utils import Dictionary
 from torch_geometric.data import Batch
 import json
 

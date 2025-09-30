@@ -1,5 +1,3 @@
-import os
-
 from torch.utils.data import Dataset
 
 from data_provider.mol_dataset import MolDataset_cid
